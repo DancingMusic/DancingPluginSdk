@@ -8,18 +8,33 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch"
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": ["musicdance", "plugin", "sdk", "audio", "visualization", "canvas"],
+  "keywords": [
+    "musicdance",
+    "plugin",
+    "sdk",
+    "audio",
+    "visualization",
+    "canvas"
+  ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"

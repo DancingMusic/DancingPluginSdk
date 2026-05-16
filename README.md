@@ -97,3 +97,10 @@ They have full DOM access. Only install plugins from sources you trust.
 ## License
 
 MIT
+
+## GitHub Pages
+
+This repository publishes a responsibility overview page from `docs/` via GitHub Actions.
+
+- Expected URL: `https://dancingmusic.github.io/DancingPluginSdk/`
+- Workflow: `.github/workflows/deploy-pages.yml`
