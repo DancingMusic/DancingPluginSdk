@@ -23,13 +23,25 @@
 
 ```typescript
 interface DancePlugin {
-  id: string;
-  name: string;
+  config: DancePluginConfig;
   init(canvas: HTMLCanvasElement, settings?: Record<string, unknown>): void;
   render(audioData: AudioData, deltaTime: number, isPlaying: boolean): void;
   dispose(): void;
   resize?(width: number, height: number): void;
   updateSettings?(settings: Record<string, unknown>): void;
+}
+```
+
+### DancePluginConfig.hostOverlay
+
+插件可以通过 `config.hostOverlay` 显式决定宿主左上角当前歌曲 overlay 的展示策略；这是插件控制项，不是宿主根据画布内容推断。
+
+```typescript
+interface DancePluginConfig {
+  hostOverlay?: {
+    showSongCover?: boolean;     // default true
+    showSongMetadata?: boolean;  // default true, title + artist
+  };
 }
 ```
 

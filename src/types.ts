@@ -54,6 +54,20 @@ export interface DancePluginConfig {
   /** 0 = free */
   price: number;
 
+  /** Optional host overlay preferences controlled by the plugin. */
+  hostOverlay?: {
+    /**
+     * Whether the host should show its top-left current-song cover overlay.
+     * Defaults to true when omitted.
+     */
+    showSongCover?: boolean;
+    /**
+     * Whether the host should show its top-left title/artist overlay.
+     * Defaults to true when omitted.
+     */
+    showSongMetadata?: boolean;
+  };
+
   /** User-configurable parameters */
   settings?: {
     [key: string]: {

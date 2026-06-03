@@ -22,6 +22,10 @@ class MyPlugin implements DancePlugin {
     version: '1.0.0',
     category: 'abstract',      // abstract | particle | geometric | nature | other
     price: 0,                  // 0 = free
+    hostOverlay: {
+      showSongCover: true,     // default true
+      showSongMetadata: true,  // default true, title + artist
+    },
   };
 
   private ctx: CanvasRenderingContext2D | null = null;
