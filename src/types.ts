@@ -68,6 +68,15 @@ export interface DancePluginConfig {
     showSongMetadata?: boolean;
   };
 
+  /** Rendering target requirements declared by the plugin. */
+  rendering?: {
+    /**
+     * Canvas context type required by the plugin.
+     * Defaults to "2d" for backward compatibility.
+     */
+    context?: '2d' | 'webgl';
+  };
+
   /** User-configurable parameters */
   settings?: {
     [key: string]: {
