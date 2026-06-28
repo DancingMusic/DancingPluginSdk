@@ -8,7 +8,9 @@ export type {
   LyricLine,
   DancePluginConfig,
   DanceHostActions,
+  DanceHostPlaylistDetailSnapshot,
   DanceHostPlaylistRequest,
+  DanceHostPlaylistTrackSnapshot,
   DancePlugin,
   DanceStoreItem,
   PluginRegistryEntry,
@@ -17,4 +19,4 @@ export type {
 
 export { createEmptyAudioData, createEmptyRhythmFrame } from './create-empty-audio-data';
 
-export const SDK_VERSION = '1.0.0';
+export const SDK_VERSION = '1.1.0';

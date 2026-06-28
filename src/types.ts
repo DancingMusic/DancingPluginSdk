@@ -146,6 +146,22 @@ export interface DancePluginSettingDefinition {
 export interface DanceHostPlaylistRequest {
   id: string;
   title?: string;
+  startIndex?: number;
+}
+
+export interface DanceHostPlaylistTrackSnapshot {
+  id: string;
+  title: string;
+  artist: string;
+  album?: string;
+  cover?: string;
+  durationSec?: number;
+}
+
+export interface DanceHostPlaylistDetailSnapshot {
+  id: string;
+  title?: string;
+  tracks: DanceHostPlaylistTrackSnapshot[];
 }
 
 export interface DanceHostActions {
@@ -159,6 +175,11 @@ export interface DanceHostActions {
    * supplied through updateSettings. Plugins must not fetch connector data.
    */
   playPlaylist?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+  /**
+   * Request a read-only playlist detail snapshot for plugin-owned visual lists.
+   * The host owns connector access and may return an empty snapshot.
+   */
+  getPlaylistDetail?: (request: DanceHostPlaylistRequest) => DanceHostPlaylistDetailSnapshot | Promise<DanceHostPlaylistDetailSnapshot>;
   /**
    * Request that the host open its own playlist/detail surface. This is a UI
    * handoff, not permission for plugins to render host controls.

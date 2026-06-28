@@ -12,7 +12,7 @@
 ## 当前状态
 
 - 包名：`@dancingmusic/plugin-sdk`
-- 版本：`v1.0.0`
+- 版本：`v1.1.0`
 - 核心导出：`DancePlugin`（接口）、`AudioData` / `DanceRhythmFrame`（类型）、`createEmptyAudioData`（辅助函数）
 - 文档站：`docs/index.html`（支持 i18n 中英切换、客户端搜索、暗色模式）
 - 示例插件：`src/example/`
@@ -41,17 +41,35 @@ interface DancePlugin {
 interface DanceHostPlaylistRequest {
   id: string;
   title?: string;
+  startIndex?: number;
+}
+
+interface DanceHostPlaylistTrackSnapshot {
+  id: string;
+  title: string;
+  artist: string;
+  album?: string;
+  cover?: string;
+  durationSec?: number;
+}
+
+interface DanceHostPlaylistDetailSnapshot {
+  id: string;
+  title?: string;
+  tracks: DanceHostPlaylistTrackSnapshot[];
 }
 
 interface DanceHostActions {
   playQueueIndex?: (index: number) => void | Promise<void>;
   playPlaylist?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+  getPlaylistDetail?: (request: DanceHostPlaylistRequest) => DanceHostPlaylistDetailSnapshot | Promise<DanceHostPlaylistDetailSnapshot>;
   openPlaylistDetail?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
 }
 ```
 
 宿主仍然拥有动作执行权，可以校验、忽略或降级处理请求。该接口用于插件内的 3D
-歌单架、可视化卡片等场景把用户意图交回宿主执行。
+歌单架、可视化卡片、只读详情列表等场景把用户意图交回宿主执行。`getPlaylistDetail`
+返回的是宿主生成的只读快照，插件仍不能直接访问连接器。
 
 ### DancePluginConfig.hostOverlay
 
