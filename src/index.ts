@@ -7,6 +7,8 @@ export type {
   DanceRhythmFrame,
   LyricLine,
   DancePluginConfig,
+  DanceHostActions,
+  DanceHostPlaylistRequest,
   DancePlugin,
   DanceStoreItem,
   PluginRegistryEntry,

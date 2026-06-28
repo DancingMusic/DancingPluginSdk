@@ -143,6 +143,29 @@ export interface DancePluginSettingDefinition {
   disabled?: boolean;
 }
 
+export interface DanceHostPlaylistRequest {
+  id: string;
+  title?: string;
+}
+
+export interface DanceHostActions {
+  /**
+   * Request that the host select and play an item from the active queue.
+   * The host remains the owner of playback state and may ignore invalid indexes.
+   */
+  playQueueIndex?: (index: number) => void | Promise<void>;
+  /**
+   * Request that the host resolve and play a playlist snapshot previously
+   * supplied through updateSettings. Plugins must not fetch connector data.
+   */
+  playPlaylist?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+  /**
+   * Request that the host open its own playlist/detail surface. This is a UI
+   * handoff, not permission for plugins to render host controls.
+   */
+  openPlaylistDetail?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+}
+
 /**
  * Static metadata and configurable settings for a Dance plugin.
  */
@@ -229,7 +252,14 @@ export interface DancePlugin {
   /** Called when the canvas is resized. */
   resize?(width: number, height: number): void;
 
-  /** Called when the user changes plugin settings. */
+  /**
+   * Called when the user changes plugin settings and when the host forwards
+   * read-only runtime context such as currentSong/currentTime/playlist.
+   *
+   * Hosts may include `hostActions?: DanceHostActions`. Plugins may call those
+   * callbacks to request host-owned behavior, but must not import host modules,
+   * call connectors, or mutate playback state directly.
+   */
   updateSettings?(settings: Record<string, any>): void;
 
 }

@@ -32,6 +32,27 @@ interface DancePlugin {
 }
 ```
 
+### DanceHostActions
+
+宿主可以通过 `updateSettings({ hostActions })` 向插件提供显式动作回调。
+插件只能通过这些回调请求宿主行为，不能直接导入宿主模块、调用连接器或修改播放队列。
+
+```typescript
+interface DanceHostPlaylistRequest {
+  id: string;
+  title?: string;
+}
+
+interface DanceHostActions {
+  playQueueIndex?: (index: number) => void | Promise<void>;
+  playPlaylist?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+  openPlaylistDetail?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
+}
+```
+
+宿主仍然拥有动作执行权，可以校验、忽略或降级处理请求。该接口用于插件内的 3D
+歌单架、可视化卡片等场景把用户意图交回宿主执行。
+
 ### DancePluginConfig.hostOverlay
 
 插件可以通过 `config.hostOverlay` 显式决定宿主左上角当前歌曲 overlay 的展示策略；这是插件控制项，不是宿主根据画布内容推断。
@@ -115,6 +136,7 @@ interface AudioData {
 - 包含宿主运行时 / UI 实现。
 - 依赖 `DancingStoreSdk` 或 `MusicStoreSdk` 内部模块。
 - 引入宿主专属运行时 API（如 Electron IPC）。
+- 直接调用连接器、解析播放 URL 或修改播放队列；需要这些行为时必须通过宿主提供的 `DanceHostActions` 请求。
 
 ## 宿主兼容
 
