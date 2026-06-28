@@ -1,17 +1,17 @@
-# @musicdance/plugin-sdk
+# @dancingmusic/plugin-sdk
 
-TypeScript SDK for building [MusicDance](https://github.com/musicdance/app) visualization plugins.
+TypeScript SDK for building [DancingMusic](https://github.com/DancingMusic/DancingMusic) visualization plugins.
 
 ## Installation
 
 ```bash
-npm install @musicdance/plugin-sdk
+npm install @dancingmusic/plugin-sdk
 ```
 
 ## Quick Start
 
 ```typescript
-import type { DancePlugin, AudioData, DancePluginConfig } from '@musicdance/plugin-sdk';
+import type { AudioData, DanceAudioSource, DancePlugin, DancePluginConfig } from '@dancingmusic/plugin-sdk';
 
 class MyPlugin implements DancePlugin {
   config: DancePluginConfig = {
@@ -48,7 +48,7 @@ class MyPlugin implements DancePlugin {
   resize(width: number, height: number): void {}
 
   // Optional: called if your plugin needs direct Web Audio graph access (WebGL, etc.)
-  setAudioSource(audioContext: AudioContext, sourceNode: AudioNode): void {}
+  connectAudioSource(source: DanceAudioSource): void {}
 }
 
 // Export a plugin instance as the default export

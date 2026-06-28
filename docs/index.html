@@ -273,9 +273,9 @@
       <h1 data-i18n="h_getting_started">Getting Started</h1>
       <p data-i18n="p_intro">DancingPluginSdk provides type definitions, lifecycle contracts, and audio data interfaces for building visualizer plugins that run inside the DancingMusic host application.</p>
       <h3 data-i18n="h_install">Install</h3>
-<pre><code><span class="fn">npm</span> install @musicdance/plugin-sdk</code></pre>
+<pre><code><span class="fn">npm</span> install @dancingmusic/plugin-sdk</code></pre>
       <h3 data-i18n="h_basic_usage">Basic usage</h3>
-<pre><code><span class="kw">import type</span> { <span class="tp">DancePlugin</span>, <span class="tp">AudioData</span> } <span class="kw">from</span> <span class="str">'@musicdance/plugin-sdk'</span>;
+<pre><code><span class="kw">import type</span> { <span class="tp">DancePlugin</span>, <span class="tp">AudioData</span> } <span class="kw">from</span> <span class="str">'@dancingmusic/plugin-sdk'</span>;
 
 <span class="kw">const</span> myPlugin: <span class="tp">DancePlugin</span> = {
   config: {
@@ -293,7 +293,7 @@
 };</code></pre>
     </section>
 
-    <section id="lifecycle" data-search-keywords="lifecycle init render dispose resize updateSettings setAudioSource">
+    <section id="lifecycle" data-search-keywords="lifecycle init render dispose resize updateSettings connectAudioSource">
       <h2 data-i18n="h_lifecycle">Plugin Lifecycle</h2>
       <p data-i18n="p_lifecycle">Every plugin follows a strict lifecycle managed by the host:</p>
       <ol>
@@ -305,14 +305,14 @@
       <p data-i18n="p_optional_hooks">Optional hooks:</p>
       <ul>
         <li><code>updateSettings(settings)</code> &mdash; <span data-i18n="li_update_settings">Called when the user changes plugin settings via the UI.</span></li>
-        <li><code>setAudioSource(audioContext, sourceNode)</code> &mdash; <span data-i18n="li_set_audio">Called when the Web Audio graph becomes available.</span></li>
+        <li><code>connectAudioSource(source)</code> &mdash; <span data-i18n="li_set_audio">Called when the Web Audio graph source becomes available.</span></li>
       </ul>
     </section>
 
     <section id="example" data-search-keywords="example spectrum bars visualizer canvas 2d">
       <h2 data-i18n="h_example">Example Plugin</h2>
       <p data-i18n="p_example">A minimal spectrum bar visualizer:</p>
-<pre><code><span class="kw">import type</span> { <span class="tp">DancePlugin</span> } <span class="kw">from</span> <span class="str">'@musicdance/plugin-sdk'</span>;
+<pre><code><span class="kw">import type</span> { <span class="tp">DancePlugin</span> } <span class="kw">from</span> <span class="str">'@dancingmusic/plugin-sdk'</span>;
 <span class="kw">let</span> ctx: <span class="tp">CanvasRenderingContext2D</span> | <span class="kw">null</span> = <span class="kw">null</span>;
 
 <span class="kw">export const</span> spectrumBars: <span class="tp">DancePlugin</span> = {
@@ -339,7 +339,7 @@
 };</code></pre>
     </section>
 
-    <section id="dance-plugin" data-search-keywords="DancePlugin interface init render dispose resize updateSettings setAudioSource">
+    <section id="dance-plugin" data-search-keywords="DancePlugin interface init render dispose resize updateSettings connectAudioSource">
       <h2>DancePlugin</h2>
       <p data-i18n="p_dance_plugin">The core plugin interface. Every plugin must implement this.</p>
       <table class="api-table"><thead><tr><th data-i18n="th_method">Method</th><th data-i18n="th_signature">Signature</th><th data-i18n="th_desc">Description</th></tr></thead><tbody>
@@ -348,7 +348,7 @@
         <tr><td><code>dispose</code></td><td><code>() =&gt; void</code></td><td data-i18n="td_dispose">Release all resources</td></tr>
         <tr><td><code>resize</code></td><td><code>(width, height) =&gt; void</code></td><td><span data-i18n="td_resize">Handle canvas resize</span> <span class="badge">optional</span></td></tr>
         <tr><td><code>updateSettings</code></td><td><code>(settings) =&gt; void</code></td><td><span data-i18n="td_update">React to user config changes</span> <span class="badge">optional</span></td></tr>
-        <tr><td><code>setAudioSource</code></td><td><code>(ctx, node) =&gt; void</code></td><td><span data-i18n="td_audio_src">Access Web Audio graph</span> <span class="badge">optional</span></td></tr>
+        <tr><td><code>connectAudioSource</code></td><td><code>(source) =&gt; void</code></td><td><span data-i18n="td_audio_src">Access Web Audio graph</span> <span class="badge">optional</span></td></tr>
       </tbody></table>
     </section>
 
@@ -406,7 +406,7 @@
     <section id="create-empty-audio-data" data-search-keywords="createEmptyAudioData helper utility test idle paused">
       <h2>createEmptyAudioData()</h2>
       <p data-i18n="p_empty_audio">Returns a zeroed-out <code>AudioData</code> object. Useful for rendering in paused/idle state, or for unit tests.</p>
-<pre><code><span class="kw">import</span> { <span class="fn">createEmptyAudioData</span> } <span class="kw">from</span> <span class="str">'@musicdance/plugin-sdk'</span>;
+<pre><code><span class="kw">import</span> { <span class="fn">createEmptyAudioData</span> } <span class="kw">from</span> <span class="str">'@dancingmusic/plugin-sdk'</span>;
 
 <span class="kw">const</span> idle = <span class="fn">createEmptyAudioData</span>();
 plugin.<span class="fn">render</span>(idle, <span class="nr">0.016</span>, <span class="kw">false</span>);</code></pre>
@@ -447,7 +447,7 @@ const i18n = {
     li_dispose: 'Called when the plugin is switched out. Release all resources.',
     p_optional_hooks: 'Optional hooks:',
     li_update_settings: 'Called when the user changes plugin settings via the UI.',
-    li_set_audio: 'Called when the Web Audio graph becomes available.',
+    li_set_audio: 'Called when the Web Audio graph source becomes available.',
     h_example: 'Example Plugin', p_example: 'A minimal spectrum bar visualizer:',
     p_dance_plugin: 'The core plugin interface. Every plugin must implement this.',
     th_method: 'Method', th_signature: 'Signature', th_desc: 'Description', th_field: 'Field', th_type: 'Type',
@@ -489,7 +489,7 @@ const i18n = {
     li_dispose: '插件切换时调用。释放所有资源。',
     p_optional_hooks: '可选钩子：',
     li_update_settings: '用户通过 UI 更改插件设置时调用。',
-    li_set_audio: 'Web Audio 图可用时调用。',
+    li_set_audio: 'Web Audio 图音频源可用时调用。',
     h_example: '示例插件', p_example: '一个最小频谱柱状可视化器：',
     p_dance_plugin: '核心插件接口。所有插件必须实现此接口。',
     th_method: '方法', th_signature: '签名', th_desc: '描述', th_field: '字段', th_type: '类型',

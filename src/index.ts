@@ -1,5 +1,6 @@
 export type {
   AudioData,
+  DanceAudioSource,
   LyricLine,
   DancePluginConfig,
   DancePlugin,

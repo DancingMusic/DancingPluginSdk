@@ -11,9 +11,9 @@
 
 ## 当前状态
 
-- 包名：`@musicdance/plugin-sdk`
+- 包名：`@dancingmusic/plugin-sdk`
 - 版本：`v1.0.0`
-- 核心导出：`DancePlugin`（接口）、`AudioData`（类型）、`createEmptyAudioData`（辅助函数）
+- 核心导出：`DancePlugin`（接口）、`AudioData` / `DanceAudioSource`（类型）、`createEmptyAudioData`（辅助函数）
 - 文档站：`docs/index.html`（支持 i18n 中英切换、客户端搜索、暗色模式）
 - 示例插件：`src/example/`
 
@@ -29,6 +29,14 @@ interface DancePlugin {
   dispose(): void;
   resize?(width: number, height: number): void;
   updateSettings?(settings: Record<string, unknown>): void;
+  connectAudioSource?(source: DanceAudioSource): void;
+}
+
+interface DanceAudioSource {
+  audioContext: AudioContext;
+  sourceNode: AudioNode;
+  analyser?: AnalyserNode | null;
+  mode?: 'web-audio' | 'media-stream' | 'unknown';
 }
 ```
 
@@ -78,7 +86,7 @@ interface AudioData {
 
 ## 宿主兼容
 
-- 宿主通过 `@musicdance/plugin-sdk` 或路径别名 `packages/dance-plugin-sdk/src/index.ts` 消费。
+- 宿主通过 `@dancingmusic/plugin-sdk` 消费。
 - 宿主插件加载器：`src/app/lib/dynamic-plugin-loader.ts`（ES Module 动态加载）。
 - 宿主插件管理器：`src/app/lib/dance-plugin-manager.ts`（注册/激活/渲染/错误恢复）。
 

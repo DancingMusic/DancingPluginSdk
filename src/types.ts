@@ -39,6 +39,20 @@ export interface AudioData {
 }
 
 /**
+ * Optional host-provided Web Audio source for advanced visualizers.
+ *
+ * Most plugins should use the normalized AudioData passed to render().
+ * Effects that need Mineradio-style realtime spectrum envelopes can implement
+ * DancePlugin.connectAudioSource() and attach their own analyser to sourceNode.
+ */
+export interface DanceAudioSource {
+  audioContext: AudioContext;
+  sourceNode: AudioNode;
+  analyser?: AnalyserNode | null;
+  mode?: 'web-audio' | 'media-stream' | 'unknown';
+}
+
+/**
  * Static metadata and configurable settings for a Dance plugin.
  */
 export interface DancePluginConfig {
@@ -137,7 +151,7 @@ export interface DancePlugin {
    * a source node (e.g. a WebGL visualizer reading from the audio graph).
    * Will be called after init() whenever the audio graph changes.
    */
-  setAudioSource?(audioContext: AudioContext, sourceNode: AudioNode): void;
+  connectAudioSource?(source: DanceAudioSource): void;
 }
 
 /**

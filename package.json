@@ -1,7 +1,7 @@
 {
-  "name": "@musicdance/plugin-sdk",
+  "name": "@dancingmusic/plugin-sdk",
   "version": "1.0.0",
-  "description": "TypeScript SDK for building MusicDance visualization plugins",
+  "description": "TypeScript SDK for building DancingMusic visualization plugins",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -24,7 +24,7 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
-    "musicdance",
+    "dancingmusic",
     "plugin",
     "sdk",
     "audio",
