@@ -13,7 +13,7 @@
 
 - 包名：`@dancingmusic/plugin-sdk`
 - 版本：`v1.0.0`
-- 核心导出：`DancePlugin`（接口）、`AudioData` / `DanceAudioSource`（类型）、`createEmptyAudioData`（辅助函数）
+- 核心导出：`DancePlugin`（接口）、`AudioData` / `DanceRhythmFrame`（类型）、`createEmptyAudioData`（辅助函数）
 - 文档站：`docs/index.html`（支持 i18n 中英切换、客户端搜索、暗色模式）
 - 示例插件：`src/example/`
 
@@ -29,14 +29,6 @@ interface DancePlugin {
   dispose(): void;
   resize?(width: number, height: number): void;
   updateSettings?(settings: Record<string, unknown>): void;
-  connectAudioSource?(source: DanceAudioSource): void;
-}
-
-interface DanceAudioSource {
-  audioContext: AudioContext;
-  sourceNode: AudioNode;
-  analyser?: AnalyserNode | null;
-  mode?: 'web-audio' | 'media-stream' | 'unknown';
 }
 ```
 
@@ -68,8 +60,13 @@ interface AudioData {
   bpm: number;
   bassChange: number;
   volumeChange: number;
+  rhythm: DanceRhythmFrame;
 }
 ```
+
+### DanceRhythmFrame
+
+`DanceRhythmFrame` 是唯一标准节奏协议。宿主负责分析音频并输出 `bands`、`onset`、`beat`、`pulse`、`bass/mid/treble/energy`；插件不得自行挂载 analyser 或实现私有节拍检测。
 
 ## MUST
 

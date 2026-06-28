@@ -1,6 +1,10 @@
 export type {
   AudioData,
-  DanceAudioSource,
+  DanceBeatCombo,
+  DanceBeatFrame,
+  DanceBeatSource,
+  DanceRhythmBands,
+  DanceRhythmFrame,
   LyricLine,
   DancePluginConfig,
   DancePlugin,
@@ -9,6 +13,6 @@ export type {
   PluginRegistry,
 } from './types';
 
-export { createEmptyAudioData } from './create-empty-audio-data';
+export { createEmptyAudioData, createEmptyRhythmFrame } from './create-empty-audio-data';
 
 export const SDK_VERSION = '1.0.0';

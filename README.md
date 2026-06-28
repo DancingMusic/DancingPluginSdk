@@ -11,7 +11,7 @@ npm install @dancingmusic/plugin-sdk
 ## Quick Start
 
 ```typescript
-import type { AudioData, DanceAudioSource, DancePlugin, DancePluginConfig } from '@dancingmusic/plugin-sdk';
+import type { AudioData, DancePlugin, DancePluginConfig } from '@dancingmusic/plugin-sdk';
 
 class MyPlugin implements DancePlugin {
   config: DancePluginConfig = {
@@ -47,8 +47,7 @@ class MyPlugin implements DancePlugin {
   // Optional: called when canvas is resized
   resize(width: number, height: number): void {}
 
-  // Optional: called if your plugin needs direct Web Audio graph access (WebGL, etc.)
-  connectAudioSource(source: DanceAudioSource): void {}
+  // Advanced plugins should read audioData.rhythm instead of attaching analysers.
 }
 
 // Export a plugin instance as the default export
@@ -70,6 +69,7 @@ export default new MyPlugin();
 | `bpm` | `number` | Estimated BPM |
 | `bassChange` | `number` | Bass change since last frame (-1–1) |
 | `volumeChange` | `number` | Volume change since last frame (-1–1) |
+| `rhythm` | `DanceRhythmFrame` | Unified beat, band, onset, and pulse protocol |
 
 ## Building Your Plugin for Distribution
 

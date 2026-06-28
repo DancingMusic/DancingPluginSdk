@@ -36,20 +36,68 @@ export interface AudioData {
   bassChange: number;
   /** Volume change rate relative to last frame (-1 to 1) */
   volumeChange: number;
+
+  /**
+   * Unified rhythm protocol for visual plugins.
+   *
+   * The host owns rhythm analysis. Plugins should consume this frame instead
+   * of attaching their own analysers or re-implementing beat detection.
+   */
+  rhythm: DanceRhythmFrame;
 }
 
 /**
- * Optional host-provided Web Audio source for advanced visualizers.
- *
- * Most plugins should use the normalized AudioData passed to render().
- * Effects that need Mineradio-style realtime spectrum envelopes can implement
- * DancePlugin.connectAudioSource() and attach their own analyser to sourceNode.
+ * Beat role in a four-beat phrase, used by camera and particle choreography.
  */
-export interface DanceAudioSource {
-  audioContext: AudioContext;
-  sourceNode: AudioNode;
-  analyser?: AnalyserNode | null;
-  mode?: 'web-audio' | 'media-stream' | 'unknown';
+export type DanceBeatCombo = 'none' | 'downbeat' | 'push' | 'drop' | 'rebound' | 'accent';
+
+export type DanceBeatSource = 'silent' | 'realtime' | 'scheduled' | 'fallback';
+
+export interface DanceRhythmBands {
+  sub: number;
+  kick: number;
+  low: number;
+  body: number;
+  vocal: number;
+  snap: number;
+  mid: number;
+  treble: number;
+  volume: number;
+  energy: number;
+}
+
+export interface DanceBeatFrame {
+  hit: boolean;
+  time: number;
+  strength: number;
+  confidence: number;
+  score: number;
+  low: number;
+  body: number;
+  vocal: number;
+  snap: number;
+  mass: number;
+  sharpness: number;
+  tempoAssist: boolean;
+  tempoGap: number;
+  tempoConfidence: number;
+  combo: DanceBeatCombo;
+  source: DanceBeatSource;
+}
+
+export interface DanceRhythmFrame {
+  bands: DanceRhythmBands;
+  onset: {
+    bass: number;
+    energy: number;
+    score: number;
+  };
+  beat: DanceBeatFrame;
+  pulse: number;
+  bass: number;
+  mid: number;
+  treble: number;
+  energy: number;
 }
 
 /**
@@ -145,13 +193,6 @@ export interface DancePlugin {
   /** Called when the user changes plugin settings. */
   updateSettings?(settings: Record<string, any>): void;
 
-  /**
-   * Optional: called when the Web Audio graph is available.
-   * Implement this if your plugin needs direct access to AudioContext or
-   * a source node (e.g. a WebGL visualizer reading from the audio graph).
-   * Will be called after init() whenever the audio graph changes.
-   */
-  connectAudioSource?(source: DanceAudioSource): void;
 }
 
 /**

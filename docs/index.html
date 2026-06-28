@@ -293,7 +293,7 @@
 };</code></pre>
     </section>
 
-    <section id="lifecycle" data-search-keywords="lifecycle init render dispose resize updateSettings connectAudioSource">
+    <section id="lifecycle" data-search-keywords="lifecycle init render dispose resize updateSettings rhythm AudioData">
       <h2 data-i18n="h_lifecycle">Plugin Lifecycle</h2>
       <p data-i18n="p_lifecycle">Every plugin follows a strict lifecycle managed by the host:</p>
       <ol>
@@ -305,7 +305,7 @@
       <p data-i18n="p_optional_hooks">Optional hooks:</p>
       <ul>
         <li><code>updateSettings(settings)</code> &mdash; <span data-i18n="li_update_settings">Called when the user changes plugin settings via the UI.</span></li>
-        <li><code>connectAudioSource(source)</code> &mdash; <span data-i18n="li_set_audio">Called when the Web Audio graph source becomes available.</span></li>
+        <li><code>audioData.rhythm</code> &mdash; <span data-i18n="li_set_audio">Unified host-owned rhythm frame for bands, onset, beat, and pulse.</span></li>
       </ul>
     </section>
 
@@ -339,7 +339,7 @@
 };</code></pre>
     </section>
 
-    <section id="dance-plugin" data-search-keywords="DancePlugin interface init render dispose resize updateSettings connectAudioSource">
+    <section id="dance-plugin" data-search-keywords="DancePlugin interface init render dispose resize updateSettings rhythm">
       <h2>DancePlugin</h2>
       <p data-i18n="p_dance_plugin">The core plugin interface. Every plugin must implement this.</p>
       <table class="api-table"><thead><tr><th data-i18n="th_method">Method</th><th data-i18n="th_signature">Signature</th><th data-i18n="th_desc">Description</th></tr></thead><tbody>
@@ -348,7 +348,7 @@
         <tr><td><code>dispose</code></td><td><code>() =&gt; void</code></td><td data-i18n="td_dispose">Release all resources</td></tr>
         <tr><td><code>resize</code></td><td><code>(width, height) =&gt; void</code></td><td><span data-i18n="td_resize">Handle canvas resize</span> <span class="badge">optional</span></td></tr>
         <tr><td><code>updateSettings</code></td><td><code>(settings) =&gt; void</code></td><td><span data-i18n="td_update">React to user config changes</span> <span class="badge">optional</span></td></tr>
-        <tr><td><code>connectAudioSource</code></td><td><code>(source) =&gt; void</code></td><td><span data-i18n="td_audio_src">Access Web Audio graph</span> <span class="badge">optional</span></td></tr>
+        <tr><td><code>audioData.rhythm</code></td><td><code>DanceRhythmFrame</code></td><td><span data-i18n="td_audio_src">Use the host rhythm protocol; plugins must not attach analysers.</span></td></tr>
       </tbody></table>
     </section>
 
