@@ -187,6 +187,31 @@ export interface DanceHostActions {
   openPlaylistDetail?: (request: DanceHostPlaylistRequest) => void | Promise<void>;
 }
 
+export type DanceHostStagePanel = 'none' | 'dance-switcher';
+export type DanceHostStagePanelShift = 'host-transform' | 'plugin-content';
+
+export interface DanceHostStageState {
+  /**
+   * Host surface currently affecting the main visual stage.
+   * `none` means the plugin should render its neutral stage layout.
+   */
+  panel: DanceHostStagePanel;
+  /**
+   * True when the Dance switcher B/store region is expanded.
+   */
+  expanded: boolean;
+  /**
+   * Host-recommended horizontal visual offset in CSS pixels.
+   * Plugins that declare `stageMotion.panelShift = "plugin-content"` can use
+   * this to move foreground content while keeping full-canvas backgrounds fixed.
+   */
+  shiftX: number;
+  /**
+   * Host-recommended visual scale. 1 is neutral.
+   */
+  scale: number;
+}
+
 /**
  * Static metadata and configurable settings for a Dance plugin.
  */
@@ -224,6 +249,19 @@ export interface DancePluginConfig {
      * Defaults to "2d" for backward compatibility.
      */
     context?: '2d' | 'webgl';
+  };
+
+  /** Optional host stage motion preferences controlled by the plugin. */
+  stageMotion?: {
+    /**
+     * How the host should handle A/B panel stage displacement.
+     *
+     * - `host-transform` (default): host moves/scales the whole visual canvas.
+     * - `plugin-content`: host keeps the canvas fixed and forwards
+     *   `hostStage` through `updateSettings`; the plugin moves foreground
+     *   content itself so full-canvas backgrounds do not expose edge gaps.
+     */
+    panelShift?: DanceHostStagePanelShift;
   };
 
   /** Optional grouping metadata for user-configurable parameters. */
@@ -280,6 +318,11 @@ export interface DancePlugin {
    * Hosts may include `hostActions?: DanceHostActions`. Plugins may call those
    * callbacks to request host-owned behavior, but must not import host modules,
    * call connectors, or mutate playback state directly.
+   *
+   * Hosts may also include `hostStage?: DanceHostStageState` when a host panel
+   * affects the visual stage. Plugins that opt into `plugin-content` stage
+   * motion should consume this read-only state instead of resizing or moving
+   * the host canvas.
    */
   updateSettings?(settings: Record<string, any>): void;
 

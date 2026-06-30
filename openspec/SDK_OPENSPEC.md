@@ -84,6 +84,27 @@ interface DancePluginConfig {
 }
 ```
 
+### DancePluginConfig.stageMotion
+
+插件可以通过 `config.stageMotion` 声明宿主面板打开时的舞台位移策略。默认由宿主移动整个 visual canvas；需要保持全屏背景铺满的插件可以声明 `plugin-content`，由宿主通过 `updateSettings({ hostStage })` 传入只读面板状态和建议位移，插件只移动自己的前景内容。
+
+```typescript
+interface DanceHostStageState {
+  panel: 'none' | 'dance-switcher';
+  expanded: boolean;
+  shiftX: number; // CSS pixels
+  scale: number;  // 1 is neutral
+}
+
+interface DancePluginConfig {
+  stageMotion?: {
+    panelShift?: 'host-transform' | 'plugin-content';
+  };
+}
+```
+
+插件不得通过该协议修改宿主 canvas 尺寸、移动宿主 DOM 或渲染宿主面板；只能消费 `hostStage` 进行内部相机、前景节点或 2D 绘制偏移。
+
 ### DancePluginConfig.settings
 
 插件设置由 SDK schema 描述，宿主负责渲染设置面板。设置项支持分组、排序、说明、禁用态和带 label 的 select 选项；插件不得自行注入宿主 DOM 控制面板。
